@@ -1,0 +1,26 @@
+[
+    {
+        "model": "care_always_api.provider",
+        "pk": 1,
+        "fields": {
+            "first_name": "Wendy",
+            "last_name": "Summers",
+            "specialty": "Oncology",
+            "practice": "Vanderbilt Ingram Cancer Center",
+            "address": "2220 Pierce Ave Nashville, TN 37205",
+            "phone": "123-456-7894"
+        }
+    },
+    {
+        "model": "care_always_api.provider",
+        "pk": 2,
+        "fields": {
+            "first_name": "Andrew",
+            "last_name": "Johnson",
+            "specialty": "Neurology",
+            "practice": "Saint Thomas",
+            "address": "300 20th Ave N Nashville, TN 37203",
+            "phone": "615-678-1359"
+        }
+    }
+]
