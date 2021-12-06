@@ -3,6 +3,14 @@
     "python.linting.enabled": true,
     "python.linting.pylintArgs": [
         "--load-plugins=pylint_django",
-        "--django-settings-module=<folder name>.settings",
-    ]    
+        "--django-settings-module=care_always.settings",
+    ],
+    "sqltools.connections": [
+        {
+            "previewLimit": 50,
+            "driver": "SQLite",
+            "name": "care_always",
+            "database": "${workspaceFolder:care-always-server}/db.sqlite3"
+        }
+    ]
 }
