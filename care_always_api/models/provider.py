@@ -6,8 +6,8 @@ class Provider(models.Model):
     last_name = models.CharField(max_length=50)
     specialty = models.CharField(max_length=50)
     practice = models.CharField(max_length=50)
-    address = models.CharField(max_length=50)
-    phone = models.IntegerField()
+    address = models.CharField(max_length=150)
+    phone = models.CharField(max_length=20)
 
 
 
