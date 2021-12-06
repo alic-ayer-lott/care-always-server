@@ -1,0 +1,13 @@
+[
+    {
+        "model": "care_always_api.appointment",
+        "pk": 1,
+        "fields": {
+            "date": "2021-12-25",
+            "time": "15:00",
+            "provider": 1,
+            "user": 1,
+            "question": 1
+        }
+    }
+]
