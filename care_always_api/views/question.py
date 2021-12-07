@@ -20,6 +20,28 @@ class QuestionView(ViewSet):
             questions, many=True, context={'request': request})
         return Response(serializer.data)
 
+    def retrieve(self, request, pk=None):
+
+        try:
+            question = Question.objects.get(pk=pk)
+            serializer = QuestionSerializer(question, context={'request': request})
+            return Response(serializer.data)
+        except Exception as ex:
+            return HttpResponseServerError(ex)
+    
+    def create(self, request):
+
+        try:
+            question = Question.objects.create(
+                content=request.data["content"]
+            )
+            serializer = QuestionSerializer(question, context={'request': request})
+            return Response(serializer.data)
+        
+        except ValidationError as ex:
+            return Response({"reason": ex.message}, status=status.HTTP_400_BAD_REQUEST)
+
+
 
 class QuestionSerializer(serializers.ModelSerializer):
 
