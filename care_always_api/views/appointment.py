@@ -32,15 +32,13 @@ class AppointmentView(ViewSet):
             return HttpResponseServerError(ex)
     
     def create(self, request):
-        user = User.objects.get(user=request.auth.user)
-        appointment=Appointment.objects.get(pk=request.data["appointmentId"])
 
         try:
             appointment = Appointment.objects.create(
                 date=request.data["date"],
                 time=request.data["time"],
                 provider=Provider.objects.get(pk=request.data["providerId"]),
-                user=user,
+                user=request.auth.user,
                 question=Question.objects.get(pk=request.data["questionId"])
             )
             serializer = AppointmentSerializer(appointment, context={'request': request})
@@ -48,7 +46,19 @@ class AppointmentView(ViewSet):
         
         except ValidationError as ex:
             return Response({"reason": ex.message}, status=status.HTTP_400_BAD_REQUEST)
+    
+    def destroy(self, request, pk=None):
 
+        try:
+            appointment = Appointment.objects.get(pk=pk)
+            appointment.delete()
+
+            return Response({}, status=status.HTTP_204_NO_CONTENT)
+        
+        except Appointment.DoesNotExist as ex:
+            return Response({'message': ex.args[0]}, status=status.HTTP_404_NOT_FOUND)
+        except Exception as ex:
+            return Response({'message': ex.args[0]}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 class AppointmentUserSerializer(serializers.ModelSerializer):
     class Meta:
