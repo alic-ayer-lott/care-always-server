@@ -17,10 +17,9 @@ Including another URLconf
 from django.contrib import admin
 from django.conf.urls import include
 from django.urls import path
-from care_always_api.views import register_user, login_user, QuestionView, ProviderView, AppointmentView
+from care_always_api.views import register_user, login_user, user_profile, QuestionView, ProviderView, AppointmentView
 from rest_framework import routers
 
-from care_always_api.views.appointment import AppointmentView
 
 router = routers.DefaultRouter(trailing_slash=False)
 router.register(r'questions', QuestionView, 'question')
@@ -33,4 +32,5 @@ urlpatterns = [
     path('login', login_user),
     path('api-auth', include('rest_framework.urls', namespace='rest_framework')),
     path('admin/', admin.site.urls),
+    path('profile', user_profile),
 ]
