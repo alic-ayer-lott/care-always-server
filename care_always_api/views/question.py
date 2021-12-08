@@ -40,6 +40,15 @@ class QuestionView(ViewSet):
         
         except ValidationError as ex:
             return Response({"reason": ex.message}, status=status.HTTP_400_BAD_REQUEST)
+    
+    def update(self, request, pk=None):
+
+        question = Question.objects.get(pk=pk)
+        question.content = request.data["content"]
+
+        question.save()
+
+        return Response({}, status=status.HTTP_204_NO_CONTENT)
 
 
 
