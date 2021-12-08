@@ -1,0 +1,9 @@
+[
+    {
+        "model": "care_always_api.condition",
+        "pk": 1,
+        "fields": {
+            "diagnosis": "Cancer"
+        }
+    }
+]
