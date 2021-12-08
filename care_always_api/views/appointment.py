@@ -11,14 +11,16 @@ from rest_framework.decorators import action
 
 class AppointmentView(ViewSet):
     def list(self, request):
-        user = User.objects.get(user=request.auth.user)
-        appointments = Appointment.objects.all()
+        current_user = request.auth.user
 
-        for appointment in appointments:
-            appointment.scheduled = user in appointment.attendees.all()
+        # filter appointments here
+        appointments = Appointment.objects.all()
+        if appointments is not None:
+            current_user_appointments = appointments.filter(user_id=current_user)
+        
         
         serializer = AppointmentSerializer(
-            appointments, many=True, context={'request': request})
+            current_user_appointments, many=True, context={'request': request})
         return Response(serializer.data)
     
     def retrieve(self, request, pk=None):
@@ -46,3 +48,16 @@ class AppointmentView(ViewSet):
         
         except ValidationError as ex:
             return Response({"reason": ex.message}, status=status.HTTP_400_BAD_REQUEST)
+
+
+class AppointmentUserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ('id', 'first_name', 'last_name', 'email', 'username', 'password')
+
+class AppointmentSerializer(serializers.ModelSerializer):
+    user = AppointmentUserSerializer()
+    class Meta:
+        model = Appointment
+        fields = ('id', 'date', 'time', 'provider', 'user', 'question')
+        depth = 1

@@ -17,12 +17,15 @@ Including another URLconf
 from django.contrib import admin
 from django.conf.urls import include
 from django.urls import path
-from care_always_api.views import register_user, login_user, QuestionView, ProviderView
+from care_always_api.views import register_user, login_user, QuestionView, ProviderView, AppointmentView
 from rest_framework import routers
+
+from care_always_api.views.appointment import AppointmentView
 
 router = routers.DefaultRouter(trailing_slash=False)
 router.register(r'questions', QuestionView, 'question')
 router.register(r'providers', ProviderView, 'provider')
+router.register(r'appointments', AppointmentView, 'appointment')
 
 urlpatterns = [
     path('', include(router.urls)),
