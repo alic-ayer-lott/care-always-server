@@ -13,7 +13,9 @@ from rest_framework.decorators import action
 class ProviderView(ViewSet):
 
     def list(self,request):
-        providers = Provider.objects.all()
+        current_user = request.auth.user
+
+        providers = current_user.providers.all()
 
         serializer = ProviderSerializer(
             providers, many=True, context={'request': request})
@@ -38,6 +40,7 @@ class ProviderView(ViewSet):
                 address=request.data["address"],
                 phone=request.data["phone"]
             )
+            provider.patients.set(request.data['patients'])
             serializer = ProviderSerializer(provider, context={'request': request})
             return Response(serializer.data)
         
@@ -73,9 +76,13 @@ class ProviderView(ViewSet):
         except Exception as ex:
             return Response({'message': ex.args[0]}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
+# class ProviderUserSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = User
+#         fields = ('id')
+
 
 class ProviderSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = Provider
         fields = ('id', 'first_name', 'last_name', 'specialty', 'practice', 'address', 'phone')
