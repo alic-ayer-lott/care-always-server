@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 class Provider(models.Model):
     
@@ -8,6 +9,7 @@ class Provider(models.Model):
     practice = models.CharField(max_length=50)
     address = models.CharField(max_length=150)
     phone = models.CharField(max_length=20)
+    patients = models.ManyToManyField(User, through="UserProvider", related_name="providers")
 
 
 
