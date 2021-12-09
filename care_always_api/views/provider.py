@@ -31,6 +31,8 @@ class ProviderView(ViewSet):
     
     def create(self, request):
 
+        current_user = request.auth.user
+
         try:
             provider = Provider.objects.create(
                 first_name=request.data["first_name"],
@@ -40,7 +42,7 @@ class ProviderView(ViewSet):
                 address=request.data["address"],
                 phone=request.data["phone"]
             )
-            provider.patients.set(request.data['patients'])
+            provider.patients.add(current_user)
             serializer = ProviderSerializer(provider, context={'request': request})
             return Response(serializer.data)
         
