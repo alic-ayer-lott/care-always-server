@@ -7,4 +7,3 @@ class Appointment(models.Model):
     time = models.TimeField()
     provider = models.ForeignKey("Provider", on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    question = models.ForeignKey("Question", on_delete=models.DO_NOTHING)

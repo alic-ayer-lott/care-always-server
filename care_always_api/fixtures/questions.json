@@ -3,7 +3,8 @@
         "model": "care_always_api.question",
         "pk": 1,
         "fields": {
-            "content": "What should I put as my first question?"
+            "content": "What should I put as my first question?",
+            "appointment": 1
         }
     }
 ]

@@ -10,6 +10,8 @@ from care_always_api.models import Question
 from django.contrib.auth.models import User
 from rest_framework.decorators import action
 
+from care_always_api.models.appointment import Appointment
+
 class QuestionView(ViewSet):
 
     def list(self, request):
@@ -30,10 +32,12 @@ class QuestionView(ViewSet):
             return HttpResponseServerError(ex)
     
     def create(self, request):
+        appointment = Appointment.objects.get(pk=request.data["appointmentId"])
 
         try:
             question = Question.objects.create(
-                content=request.data["content"]
+                content=request.data["content"],
+                appointment=appointment
             )
             serializer = QuestionSerializer(question, context={'request': request})
             return Response(serializer.data)
