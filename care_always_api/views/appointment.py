@@ -5,7 +5,7 @@ from rest_framework.viewsets import ViewSet
 from rest_framework.response import Response
 from rest_framework import serializers
 from rest_framework import status
-from care_always_api.models import Appointment, Provider, Question
+from care_always_api.models import Appointment, Provider
 from django.contrib.auth.models import User
 from rest_framework.decorators import action
 
@@ -38,8 +38,7 @@ class AppointmentView(ViewSet):
                 date=request.data["date"],
                 time=request.data["time"],
                 provider=Provider.objects.get(pk=request.data["providerId"]),
-                user=request.auth.user,
-                question=Question.objects.get(pk=request.data["questionId"])
+                user=request.auth.user
             )
             serializer = AppointmentSerializer(appointment, context={'request': request})
             return Response(serializer.data)
@@ -69,5 +68,5 @@ class AppointmentSerializer(serializers.ModelSerializer):
     user = AppointmentUserSerializer()
     class Meta:
         model = Appointment
-        fields = ('id', 'date', 'time', 'provider', 'user', 'question')
+        fields = ('id', 'date', 'time', 'provider', 'user')
         depth = 1
